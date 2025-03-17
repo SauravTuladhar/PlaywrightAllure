@@ -15,28 +15,46 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
+      # Checkout the code
       - uses: actions/checkout@v4
+
+      # Set up Node.js environment
       - uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      # Install dependencies
       - name: Install dependencies
         run: npm ci
+
+      # Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+
+      # Run Playwright tests
       - name: Run Playwright tests
         run: npx playwright test
+
+      # Install Allure Commandline
       - name: Install Allure Commandline
         run: npm install -g allure-commandline
+
+      # Generate Allure report in a separate folder `allure-report`
       - name: Generate Allure Report
-        run: npx allure-commandline generate ./allure-results --clean -o ./allure-results
+        run: npx allure-commandline generate ./allure-results --clean -o ./allure-report
+
+      # Fix Allure HTML file paths to be relative (to fix asset path issues)
       - name: Fix Allure HTML File Paths (Make them Relative)
         run: |
-          sed -i 's|/assets/|assets/|g' ./allure-results/index.html
-          sed -i 's|/data/|data/|g' ./allure-results/index.html
+          sed -i 's|/assets/|assets/|g' ./allure-report/index.html
+          sed -i 's|/data/|data/|g' ./allure-report/index.html
+
+      # Upload the entire allure-report folder as an artifact
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
           path: |
-            playwright-report/
             allure-results/
             allure-report/
           retention-days: 30
