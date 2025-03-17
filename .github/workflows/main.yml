@@ -34,5 +34,5 @@ jobs:
           name: playwright-report
           path: |
             playwright-report/
-            allure-report/index.html
+            allure-report/
           retention-days: 30
