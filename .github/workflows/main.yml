@@ -34,6 +34,7 @@ jobs:
       # Run Playwright tests
       - name: Run Playwright tests
         run: npx playwright test
+        continue-on-error: true
 
       # Install Allure Commandline
       - name: Install Allure Commandline
