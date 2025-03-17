@@ -43,6 +43,13 @@ jobs:
       - name: Generate Allure Report
         run: npx allure-commandline generate ./allure-results --clean -o ./allure-report
 
+      # Make Allure Report file paths relative (for local viewing)
+      - name: Fix Allure Report HTML File Paths (Make them Relative)
+        run: |
+          find ./allure-report -type f -exec sed -i 's|/assets/|assets/|g' {} \;
+          find ./allure-report -type f -exec sed -i 's|/data/|data/|g' {} \;
+          find ./allure-report -type f -exec sed -i 's|/widgets/|widgets/|g' {} \;
+
       # Upload the entire allure-report folder as an artifact
       - uses: actions/upload-artifact@v4
         if: always()
