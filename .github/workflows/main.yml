@@ -31,8 +31,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: Automated-Test-Report
           path: |
             playwright-report/
             allure-report/
+            allure-results/
           retention-days: 30
