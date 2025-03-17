@@ -44,16 +44,12 @@ jobs:
       - name: Generate Allure Report
         run: npx allure-commandline generate ./allure-results --clean -o ./allure-report
 
-      # Make Allure Report file paths relative (for local viewing)
-      - name: Fix Allure Report HTML File Paths (Make them Relative)
-        run: |
-          find ./allure-report -type f -exec sed -i 's|/assets/|assets/|g' {} \;
-          find ./allure-report -type f -exec sed -i 's|/data/|data/|g' {} \;
-          find ./allure-report -type f -exec sed -i 's|/widgets/|widgets/|g' {} \;
-
-      # Archive the Allure report as a zip file
-      - name: Archive Allure Report
-        run: zip -r allure-report.zip allure-report/
+    #   # Make Allure Report file paths relative (for local viewing)
+    #   - name: Fix Allure Report HTML File Paths (Make them Relative)
+    #     run: |
+    #       find ./allure-report -type f -exec sed -i 's|/assets/|assets/|g' {} \;
+    #       find ./allure-report -type f -exec sed -i 's|/data/|data/|g' {} \;
+    #       find ./allure-report -type f -exec sed -i 's|/widgets/|widgets/|g' {} \;
 
       # Upload the entire allure-report folder as an artifact
       - uses: actions/upload-artifact@v4
@@ -65,16 +61,10 @@ jobs:
             allure-report/
           retention-days: 30
 
-      # Send Email with Allure Report Attached
-      - name: Send Email with Allure Report
-        uses: dawidd6/action-send-mail@v3
+      # Deploy Allure Report to GitHub Pages
+      - name: Deploy Allure Report to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          subject: "Automated Test Report"
-          body: "Please find the Test Report attached in this email."
-          from: "sauravzakipoint@gmail.com"
-          to: "saurav.tuladhar@zakipoint.com"
-          attachments: allure-report.zip
+          branch: gh-pages
+          folder: allure-report
+          clean: true
