@@ -20,7 +20,7 @@ exports.LoginPage = class LoginPage {
     async verifyValidLogin() {
         const LoginValidation = await this.page.locator(this.loginValidation);
         expect(this.logOut).toBeVisible;
-        await expect(LoginValidation).toHaveText('Click on any contact to view the Contact Details');
+        await expect(LoginValidation).toHaveText('Click on any contact to view the Contact Details....');
     }
 
     async verifyInvalidLogin() {
