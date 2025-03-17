@@ -77,5 +77,4 @@ jobs:
           body: "Please find the Test Report attached in this email."
           from: "sauravzakipoint@gmail.com"
           to: "saurav.tuladhar@zakipoint.com"
-          content_type: text/html
           attachments: allure-report.zip
