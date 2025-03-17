@@ -9,6 +9,8 @@ on:
     - cron: '30 1 * * 1-5'
   repository_dispatch:
     types: [trigger-workflow]
+permissions:
+  contents: write  # 🔥 Give GitHub Actions permission to push to gh-pages
 
 jobs:
   test:
